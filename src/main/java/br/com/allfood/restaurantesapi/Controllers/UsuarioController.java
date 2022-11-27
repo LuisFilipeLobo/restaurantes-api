@@ -2,6 +2,7 @@ package br.com.allfood.restaurantesapi.Controllers;
 
 import br.com.allfood.restaurantesapi.Services.ServiceException.ServiceException;
 import br.com.allfood.restaurantesapi.Services.UsuarioService;
+import br.com.allfood.restaurantesapi.models.DTO.UsuarioDto;
 import br.com.allfood.restaurantesapi.models.entities.Usuario;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,16 @@ public class UsuarioController {
         try {
             return new ResponseEntity<>(usuarioService.adicionarUsuario(usuario), HttpStatus.CREATED);
 
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
+
+    @PutMapping("/usuario/{id}")
+    public Usuario alterarUsuario(@Valid @PathVariable Long id, @RequestBody UsuarioDto dto) {
+        try {
+            return usuarioService.alterarUsuario(id, dto);
         } catch (ServiceException e) {
             throw new ServiceException(e.getHttpStatus(), e.getMessage());
         }
