@@ -1,14 +1,15 @@
 package br.com.allfood.restaurantesapi.Controllers;
 
+import br.com.allfood.restaurantesapi.Services.ServiceException.ServiceException;
 import br.com.allfood.restaurantesapi.Services.UsuarioService;
 import br.com.allfood.restaurantesapi.models.entities.Usuario;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -27,4 +28,15 @@ public class UsuarioController {
     public Optional<Usuario> buscarUsuarioPorId(@PathVariable Long id) {
         return usuarioService.buscarUsuarioPorId(id);
     }
+
+    @PostMapping("/usuario")
+    public ResponseEntity<Usuario> adicionarUsuario(@Valid @RequestBody Usuario usuario) {
+        try {
+            return new ResponseEntity<>(usuarioService.adicionarUsuario(usuario), HttpStatus.CREATED);
+
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
+
 }

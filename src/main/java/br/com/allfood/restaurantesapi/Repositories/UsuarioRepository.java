@@ -13,4 +13,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("SELECT obj FROM Usuario obj ORDER BY obj.id")
     Page<Usuario> listarUsuarios(Pageable pageable);
 
+    Usuario findUsuarioByEmail(String email);
+
 }
