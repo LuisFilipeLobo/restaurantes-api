@@ -2,8 +2,8 @@ package br.com.allfood.restaurantesapi.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -29,7 +29,7 @@ public class Usuario {
     private String email;
 
     @NotBlank(message = "Senha é obrigatório")
-    @Min(value = 8, message = "Senha deve ter no mínimo 8 caracteres")
+    @Size(min = 8, max = 255, message = "Senha deve ter no mínimo 8 caracteres")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
