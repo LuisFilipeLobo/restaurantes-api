@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UsuarioService {
@@ -15,6 +17,10 @@ public class UsuarioService {
 
     public Page<Usuario> listarUsuarios(Pageable pageable) {
         return usuarioRepository.listarUsuarios(pageable);
+    }
+
+    public Optional<Usuario> buscarUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id);
     }
 
 }
