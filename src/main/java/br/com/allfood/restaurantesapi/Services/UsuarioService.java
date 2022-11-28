@@ -5,7 +5,6 @@ import br.com.allfood.restaurantesapi.Services.ServiceException.ServiceException
 import br.com.allfood.restaurantesapi.models.DTO.UsuarioDto;
 import br.com.allfood.restaurantesapi.models.entities.Usuario;
 import br.com.allfood.restaurantesapi.validations.Validar;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,7 +66,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario alterarUsuario(Long id, @NotNull UsuarioDto dto) {
+    public Usuario alterarUsuario(Long id, UsuarioDto dto) {
 
         Usuario obj = usuarioRepository.findById(id).get();
 
@@ -79,9 +78,35 @@ public class UsuarioService {
             }
         }
 
-        obj.setNome(dto.getNome());
-        obj.setEmail(dto.getEmail());
+        obj.setNome(dto.getNome().trim().replaceAll("\s{2,}+", " "));
+        obj.setEmail(dto.getEmail().toLowerCase().trim().replaceAll("\s{2,}", " "));
+
+        // Validar nome
+        if (!validar.validarNome(obj)) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, "Nome inválido");
+        }
+
+        // Validar email
+        if (!validar.validarEmail(obj)) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, "Email inválido");
+        }
 
         return usuarioRepository.save(obj);
     }
+
+    public String deletarUsuario(Long id) {
+        try {
+            Optional<Usuario> usuario = usuarioRepository.findById(id);
+            if (usuario.isEmpty()) {
+                throw new ServiceException(HttpStatus.NO_CONTENT, "Usuário não encontrado");
+            }
+
+            usuarioRepository.deleteById(id);
+
+            return usuario.get().getNome() + " foi excluído com sucesso";
+        } catch (ServiceException e) {
+            throw new ServiceException(HttpStatus.NO_CONTENT, e.getMessage());
+        }
+    }
+
 }

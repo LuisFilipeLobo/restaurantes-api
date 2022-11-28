@@ -50,4 +50,13 @@ public class UsuarioController {
         }
     }
 
+    @DeleteMapping("/usuario/{id}")
+    public String deletarUsuario(@PathVariable Long id) {
+        try {
+            return usuarioService.deletarUsuario(id);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
+
 }
