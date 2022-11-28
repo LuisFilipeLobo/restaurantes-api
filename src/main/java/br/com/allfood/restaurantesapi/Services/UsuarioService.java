@@ -34,9 +34,9 @@ public class UsuarioService {
     public Usuario adicionarUsuario(Usuario usuario) {
 
         // Evitar espaços em branco
-        usuario.setNome(usuario.getNome().trim().replaceAll("\s{2,}+", " "));
-        usuario.setEmail(usuario.getEmail().toLowerCase().trim().replaceAll("\s{2,}", " "));
-        usuario.setSenha(usuario.getSenha().trim().replaceAll("\s{2,}", " "));
+        usuario.setNome(validar.stringField(usuario.getNome()));
+        usuario.setEmail(validar.stringField(usuario.getEmail().toLowerCase()));
+        usuario.setSenha(validar.stringField(usuario.getSenha()));
 
         // Validar nome
         if (!validar.validarNome(usuario)) {
@@ -78,8 +78,8 @@ public class UsuarioService {
             }
         }
 
-        obj.setNome(dto.getNome().trim().replaceAll("\s{2,}+", " "));
-        obj.setEmail(dto.getEmail().toLowerCase().trim().replaceAll("\s{2,}", " "));
+        obj.setNome(validar.stringField(dto.getNome()));
+        obj.setEmail(validar.stringField(dto.getEmail().toLowerCase()));
 
         // Validar nome
         if (!validar.validarNome(obj)) {
@@ -92,20 +92,22 @@ public class UsuarioService {
         }
 
         return usuarioRepository.save(obj);
+
     }
 
     public String deletarUsuario(Long id) {
         try {
             Optional<Usuario> usuario = usuarioRepository.findById(id);
+
             if (usuario.isEmpty()) {
-                throw new ServiceException(HttpStatus.NO_CONTENT, "Usuário não encontrado");
+                throw new ServiceException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
             }
 
             usuarioRepository.deleteById(id);
 
             return usuario.get().getNome() + " foi excluído com sucesso";
         } catch (ServiceException e) {
-            throw new ServiceException(HttpStatus.NO_CONTENT, e.getMessage());
+            throw new ServiceException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 

@@ -23,4 +23,10 @@ public class Validar {
 
         return email.matches("[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+");
     }
+
+    // Remover espaços em branco
+    public String stringField(String str) {
+        return str.trim().replaceAll("\s{2,}+", " ");
+    }
+
 }
