@@ -5,7 +5,10 @@ import br.com.allfood.restaurantesapi.models.entities.Prato;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -14,6 +17,16 @@ public class PratoService {
 
     public Page<Prato> listarTodosOsPratos(Pageable pageable) {
         return pratoRepository.listarTodosOsPratos(pageable);
+    }
+
+    public Optional<Prato> buscarPratoPorId(Long id) {
+
+        Optional<Prato> prato = pratoRepository.findById(id);
+        if (prato.isEmpty()) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, "Prato não encontrado");
+        }
+
+        return prato;
     }
 
 }

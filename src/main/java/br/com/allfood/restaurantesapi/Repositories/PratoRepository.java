@@ -12,4 +12,5 @@ public interface PratoRepository extends JpaRepository<Prato, Long> {
 
     @Query("SELECT obj FROM Prato obj ORDER BY obj.id")
     Page<Prato> listarTodosOsPratos(Pageable pageable);
+
 }
