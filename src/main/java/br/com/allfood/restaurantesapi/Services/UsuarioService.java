@@ -28,7 +28,12 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> buscarUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isEmpty()) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+        }
+
+        return usuario;
     }
 
     public Usuario adicionarUsuario(Usuario usuario) {

@@ -27,7 +27,11 @@ public class UsuarioController {
 
     @GetMapping("/usuario/{id}")
     public Optional<Usuario> buscarUsuarioPorId(@PathVariable Long id) {
-        return usuarioService.buscarUsuarioPorId(id);
+        try {
+            return usuarioService.buscarUsuarioPorId(id);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
     }
 
     @PostMapping("/usuario")
