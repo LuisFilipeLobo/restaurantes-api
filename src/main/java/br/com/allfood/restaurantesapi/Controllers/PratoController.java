@@ -1,6 +1,6 @@
 package br.com.allfood.restaurantesapi.Controllers;
 
-import br.com.allfood.restaurantesapi.Services.ServiceException.PratoService;
+import br.com.allfood.restaurantesapi.Services.PratoService;
 import br.com.allfood.restaurantesapi.Services.ServiceException.ServiceException;
 import br.com.allfood.restaurantesapi.models.entities.Prato;
 import lombok.AllArgsConstructor;
@@ -39,5 +39,15 @@ public class PratoController {
             throw new ServiceException(e.getHttpStatus(), e.getMessage());
         }
     }
+
+    @PostMapping("/prato")
+    public String adicionarPrato(@RequestBody Prato prato) {
+        try {
+            return pratoService.adicionarPrato(prato);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
+
 }
 

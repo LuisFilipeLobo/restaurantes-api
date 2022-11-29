@@ -1,9 +1,8 @@
 package br.com.allfood.restaurantesapi.models.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,7 @@ import java.util.Objects;
 @Table(name = "tb_pratos")
 public class Prato {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String nome;
@@ -27,7 +27,7 @@ public class Prato {
     private String imagem;
     @NotBlank
     private String descricao;
-    @NotBlank
+    @NotNull
     private Long restaurante;
 
     @Override
