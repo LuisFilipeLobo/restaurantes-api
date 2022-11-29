@@ -86,4 +86,15 @@ public class PratoService {
         return pratoRepository.save(obj);
     }
 
+    public String deletarPrato(Long id) {
+        Prato prato = pratoRepository.findById(id).orElse(null);
+        if (prato == null) {
+            throw new ServiceException(HttpStatus.NOT_FOUND, "Prato não encontrado");
+        }
+
+        pratoRepository.deleteById(id);
+
+        return prato.getNome() + " foi excluído com sucesso";
+    }
+
 }

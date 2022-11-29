@@ -58,5 +58,14 @@ public class PratoController {
         }
     }
 
+    @DeleteMapping("/prato/{id}")
+    public String deletarPrato(@PathVariable Long id) {
+        try {
+            return pratoService.deletarPrato(id);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
+
 }
 
