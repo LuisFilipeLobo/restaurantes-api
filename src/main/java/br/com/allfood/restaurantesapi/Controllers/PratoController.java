@@ -49,5 +49,14 @@ public class PratoController {
         }
     }
 
+    @PutMapping("/prato/{id}")
+    public Prato alterarPrato(@PathVariable Long id, @RequestBody Prato prato) {
+        try {
+            return pratoService.alterarPrato(id, prato);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
+
 }
 
