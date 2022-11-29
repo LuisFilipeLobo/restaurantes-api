@@ -6,11 +6,9 @@ import br.com.allfood.restaurantesapi.models.entities.Prato;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,5 +31,13 @@ public class PratoController {
         }
     }
 
+    @GetMapping("/prato/nome")
+    public List<Prato> buscarPratoPorNome(@RequestParam String nome) {
+        try {
+            return pratoService.buscarPratoPorNome(nome);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getHttpStatus(), e.getMessage());
+        }
+    }
 }
 

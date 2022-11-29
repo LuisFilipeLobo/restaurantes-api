@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,15 @@ public class PratoService {
         Optional<Prato> prato = pratoRepository.findById(id);
         if (prato.isEmpty()) {
             throw new ServiceException(HttpStatus.BAD_REQUEST, "Prato não encontrado");
+        }
+
+        return prato;
+    }
+
+    public List<Prato> buscarPratoPorNome(String nome) {
+        List<Prato> prato = pratoRepository.findByNomeContaining(nome);
+        if (prato.isEmpty()) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, "Nenhum prato encontrado");
         }
 
         return prato;
